@@ -11,7 +11,7 @@ endif ()
 
 project(allocator VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER} LANGUAGES CXX)
 
-add_executable(allocator main.cpp)
+add_executable(allocator  src/main.cpp)
 
 install(TARGETS allocator RUNTIME DESTINATION ${MY_BUILD_PATH})
 
