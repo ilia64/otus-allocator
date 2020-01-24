@@ -4,6 +4,7 @@
 #include "func.h"
 #include "hard.h"
 #include "allocator.h"
+#include "container.h"
 
 int main()
 {
@@ -19,7 +20,7 @@ int main()
         {
             std::cout << p.first << ' ' << p.second << '\n';
         }
-    }*/
+    }
 
     {
         std::map<int, hard, std::less<>, allocator<std::pair<const int, hard>, size>> db;
@@ -31,6 +32,20 @@ int main()
         for (const auto& p : db)
         {
             std::cout << p.first << ' ' << p.second << '\n';
+        }
+    }
+    */
+
+    {
+        container<hard, allocator<hard, size>> db;
+        for (int i = 0; i < size; ++i)
+        {
+            db.push(hard{fact(i), fib(i)});
+        }
+
+        for (const auto& h : db)
+        {
+            std::cout << h << '\n';
         }
     }
 
