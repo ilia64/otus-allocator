@@ -5,30 +5,22 @@ class allocator
 {
 public:
     using value_type = T;
-    using pointer = T*;
-    using const_pointer = const T*;
-    using reference = T&;
-    using const_reference = const T&;
-
     using heap = T[N];
 
 private:
-    size_t step;
-    mutable int pos;
-    void* array;
+    mutable int count;
+    void* start;
 
 public:
     allocator()
-    : step(sizeof(value_type))
-    , pos(0)
-    , array(std::malloc(sizeof(heap)))
+    : count(0)
+    , start(std::malloc(sizeof(heap)))
     {
-        std::cout << "allocator heap:" << sizeof(heap) << " step:" << step;
     }
 
     ~allocator()
     {
-        std::free(reinterpret_cast<heap*>(array));
+        std::free(reinterpret_cast<heap*>(start));
     }
 
     template<typename U>
@@ -39,13 +31,13 @@ public:
 
     T *allocate(std::size_t n) const
     {
-        if (n + pos > N)
+        if (n + count > N)
         {
             throw std::bad_alloc();
         }
 
-        T* a = reinterpret_cast<T*>(array);
-        T* b = a + sizeof(T) * pos++;
+        T* a = reinterpret_cast<T*>(start);
+        T* b = a + sizeof(T) * count++;
         return b;
     }
 
@@ -57,13 +49,11 @@ public:
     template<typename U, typename ...Args>
     void construct(U* p, Args &&...args) const
     {
-        std::cout << "      construct" <<'\n';
         new(p) U(std::forward<Args>(args)...);
     };
 
     void destroy(T* p) const
     {
-        std::cout << "      destroy" <<'\n';
         p->~T();
     }
 };
