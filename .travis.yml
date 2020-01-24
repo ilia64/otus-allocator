@@ -3,7 +3,6 @@ dist: xenial
 language: cpp
 compiler: clang
 script:
-  - conan install .
   - cmake .
   - cmake --build .
   - cmake --build . --target package
