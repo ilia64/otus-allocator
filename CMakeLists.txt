@@ -11,19 +11,8 @@ endif ()
 
 project(allocator VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER} LANGUAGES CXX)
 
-add_executable(allocator
-    src/main.cpp
-    src/func.h
-    src/hard.h
-    src/allocator.h
-    src/container.h
-)
+add_executable(allocator src/main.cpp)
 
-set_target_properties(allocator PROPERTIES
-    CXX_STANDARD 17
-    CXX_STANDARD_REQUIRED ON
-    COMPILE_OPTIONS -Wpedantic -Wall -Wextra
-)
 
 install(TARGETS allocator RUNTIME DESTINATION ${MY_BUILD_PATH})
 
