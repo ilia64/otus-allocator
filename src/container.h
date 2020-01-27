@@ -48,8 +48,8 @@ private:
 private:
     using Alloc = typename Allocator::template rebind<Node>::other;
     Alloc _allocator;
-    Node* _head;
-    Node* _tail;
+    Node* _head = nullptr;
+    Node* _tail = nullptr;
 
 public:
     template<typename... Args>

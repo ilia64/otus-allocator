@@ -9,11 +9,11 @@
 int main()
 {
     const size_t size = 10;
-/*    {
+    {
         std::map<int, hard, std::less<>> db;
         for (int i = 0; i < size; ++i)
         {
-            db.emplace(i, hard{fact(i), fib(i)});
+            db.try_emplace(i, fact(i), fib(i));
         }
 
         for (const auto& p : db)
@@ -22,20 +22,21 @@ int main()
         }
     }
 
+    std::cout << "\n\n -------- \n\n";
     {
-        std::map<int, hard, std::less<>, allocator<std::pair<const int, hard>, size>> db;
-        for (int i = 0; i < size; ++i)
-        {
-            db.emplace(i, hard{fact(i), fib(i)});
-        }
+       std::map<int, hard, std::less<>, allocator<std::pair<const int, hard>, size>> db;
+       for (int i = 0; i < size; ++i)
+       {
+           db.try_emplace(i, fact(i), fib(i));
+       }
 
-        for (const auto& p : db)
-        {
-            std::cout << p.first << ' ' << p.second << '\n';
-        }
+       for (const auto& p : db)
+       {
+           std::cout << p.first << ' ' << p.second << '\n';
+       }
     }
-    */
 
+    std::cout << "\n\n -------- \n\n";
     {
         container<hard, allocator<hard, size>> db;
         for (int i = 0; i < size; ++i)
@@ -43,9 +44,9 @@ int main()
             db.push(fact(i), fib(i));
         }
 
-        for (const auto& h : db)
+        for (const hard& hard : db)
         {
-            std::cout << h << '\n';
+            std::cout << hard << '\n';
         }
     }
 
