@@ -12,10 +12,10 @@ struct hard
         std::cout << "   +  " << __PRETTY_FUNCTION__ << ' ' << fi << '\n';
     }
 
-    //hard(const hard&) = delete;
-    //hard(hard&&) noexcept = delete;
+    hard(const hard&) = delete;
+    hard(hard&&) noexcept = delete;
 
-    hard(const hard& h)
+/*    hard(const hard& h)
     {
         fa = h.fa;
         fi = h.fi;
@@ -27,7 +27,7 @@ struct hard
         fa = h.fa;
         fi = h.fi;
         std::cout << "   <  " << __PRETTY_FUNCTION__ << ' ' << fi << '\n';
-    }
+    }*/
 
     ~hard()
     {

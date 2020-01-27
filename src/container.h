@@ -9,7 +9,8 @@ private:
         T value;
         Node* next;
 
-        explicit Node (T&& value):value(std::forward<T>(value)), next(nullptr){}
+        template<typename... Args>
+        explicit Node (Args &&...args):value(std::forward<Args>(args)...), next(nullptr){}
     };
 
     struct Iterator
@@ -19,7 +20,8 @@ private:
         explicit Iterator(Node* value) : node(value){}
 
         T& operator->() { return node->value; }
-        T* operator*() { return &node->value; }
+        T& operator*() { return node->value; }
+
         bool operator==(const Iterator& rhs) { return node == rhs.node; }
         bool operator!=(const Iterator& rhs) { return node != rhs.node; }
 
@@ -44,10 +46,10 @@ private:
     };
 
 private:
-    Node* _head;
-    Node* _tail;
     using Alloc = typename Allocator::template rebind<Node>::other;
     Alloc _allocator;
+    Node* _head;
+    Node* _tail;
 
 public:
     template<typename... Args>
@@ -63,7 +65,7 @@ public:
             return;
         }
 
-        node->next = _tail;
+        _tail->next = node;
         _tail = node;
     }
 
