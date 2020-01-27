@@ -7,18 +7,14 @@ struct hard
     int fa;
     int fi;
 
-    explicit hard(int fa_, int fi_): fa(fa_), fi(fi_)
+    explicit hard(int fa, int fi): fa(fa), fi(fi)
     {
-        std::cout << "   +  " << __PRETTY_FUNCTION__ << ' ' << fi << '\n';
     }
 
     hard(const hard&) = delete;
     hard(hard&&) noexcept = delete;
 
-    ~hard()
-    {
-        std::cout << "   -  " << __PRETTY_FUNCTION__ << ' ' << fi << '\n';
-    }
+    ~hard() = default;
 };
 
 std::ostream& operator<< (std::ostream &out, const hard& h)
