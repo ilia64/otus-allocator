@@ -38,6 +38,20 @@ int main()
 
     std::cout << "\n\n -------- \n\n";
     {
+        container<hard> db;
+        for (int i = 0; i < size; ++i)
+        {
+            db.push(fact(i), fib(i));
+        }
+
+        for (const hard& hard : db)
+        {
+            std::cout << hard << '\n';
+        }
+    }
+
+    std::cout << "\n\n -------- \n\n";
+    {
         container<hard, allocator<hard, size>> db;
         for (int i = 0; i < size; ++i)
         {

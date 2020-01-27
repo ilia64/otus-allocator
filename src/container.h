@@ -1,6 +1,8 @@
 #pragma once
 
-template <class T, class Allocator>
+#include <memory>
+
+template <class T, class Allocator = std::allocator<T>>
 class container
 {
 private:
