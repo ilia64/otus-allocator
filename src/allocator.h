@@ -1,27 +1,17 @@
 #pragma once
 
+#include <iostream>
+
 template<typename T, size_t N>
 class allocator
 {
 public:
     using value_type = T;
-    using heap = T[N];
-
-private:
-    mutable int count;
-    void* start;
-
-public:
-    allocator()
-    : count(0)
-    , start(std::malloc(sizeof(heap)))
-    {
-    }
-
-    ~allocator()
-    {
-        std::free(reinterpret_cast<heap*>(start));
-    }
+    using pointer = T*;
+    using const_pointer = const T*;
+    using reference = T&;
+    using const_reference = const T&;
+    using heap_type = const T[N];
 
     template<typename U>
     struct rebind
@@ -29,30 +19,66 @@ public:
         using other = allocator<U, N>;
     };
 
-    T *allocate(std::size_t n) const
+private:
+    mutable int count;
+    mutable pointer heap;
+
+public:
+    allocator()
+    : count(0)
+    , heap(nullptr)
     {
+    }
+
+    allocator(const allocator&) = delete;
+    allocator(allocator &&ob) noexcept = delete;
+
+    ~allocator()
+    {
+        std::free(heap);
+    }
+
+    pointer allocate(std::size_t n) const
+    {
+        if (heap == nullptr)
+        {
+            heap = (pointer)std::malloc(sizeof(value_type) * N);
+            std::cout << "M " << heap << ' ' << sizeof(T) * N << std::endl;
+        }
+
         if (n + count > N)
         {
             throw std::bad_alloc();
         }
 
-        T* a = reinterpret_cast<T*>(start);
-        T* b = a + sizeof(T) * count++;
-        return b;
+        pointer position = heap + count;
+        ++count;
+        std::cout << "A "<< position << std::endl;
+
+        return position;
     }
 
-    void deallocate(T *p, std::size_t n) const
+    void deallocate(pointer p, std::size_t n) const
     {
         //ignore)))
     }
 
     template<typename U, typename ...Args>
-    void construct(U* p, Args &&...args) const
+    void construct(U* p, Args&& ...args) const
     {
         new(p) U(std::forward<Args>(args)...);
+        std::cout << "C "<< p << std::endl;
     };
 
-    void destroy(T* p) const
+
+    template<typename ...Args>
+    void construct(T p, Args&& ...args) const
+    {
+        new(p) T(std::forward<Args>(args)...);
+        std::cout << "C "<< p << std::endl;
+    };
+
+    void destroy(pointer p) const
     {
         p->~T();
     }
