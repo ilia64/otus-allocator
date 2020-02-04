@@ -43,7 +43,7 @@ public:
         if (heap == nullptr)
         {
             heap = (pointer)std::malloc(sizeof(value_type) * N);
-            std::cout << "M " << heap << ' ' << sizeof(T) * N << std::endl;
+            //std::cout << "M " << heap << ' ' << sizeof(T) * N << ' ' << heap + N << std::endl;
         }
 
         if (n + count > N)
@@ -53,7 +53,7 @@ public:
 
         pointer position = heap + count;
         ++count;
-        std::cout << "A "<< position << std::endl;
+        //std::cout << "A " << position << std::endl;
 
         return position;
     }
@@ -67,7 +67,7 @@ public:
     void construct(U* p, Args&& ...args) const
     {
         new(p) U(std::forward<Args>(args)...);
-        std::cout << "C "<< p << std::endl;
+        //std::cout << "C "<< p << std::endl;
     };
 
 
@@ -75,7 +75,7 @@ public:
     void construct(T p, Args&& ...args) const
     {
         new(p) T(std::forward<Args>(args)...);
-        std::cout << "C "<< p << std::endl;
+        //std::cout << "C " << p << std::endl;
     };
 
     void destroy(pointer p) const
